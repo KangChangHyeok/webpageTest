@@ -1,12 +1,60 @@
 // DOM이 완전히 로드된 후 실행
 const imageSliderIndex = 0;
 
+async function loadProducts() {
+    try {
+        const response = await fetch('https://api.cusme-shoe.net/products/search/?search=&ordering=&page_size=10&page_number=1');
+        const data = await response.json();
+        const products = data.results;
 
-fetch('https://api.cusme-shoe.net/products/search/?search=&ordering=&page_size=10&page_number=1') 
-    .then(response => response.json())
-    .then(data => console.log(data));
+        const productList = document.querySelector('.product-list');
+        productList.innerHTML = ''; // 기존 내용 비우기
+
+        products.forEach(product => {
+            // 이미지가 없는 경우 대비
+            const imageUrl = (product.image_items && product.image_items.length > 0)
+                ? product.image_items[0].image
+                : '';
+
+            const productHTML = `
+                <li class="product-item" data-id="${product.id}">
+                    <img src="${imageUrl}" alt="${product.name}">
+                    <div class="product-info">
+                        <h1 class="brand-name">${product.supplier_eng_name}</h1>
+                        <p class="product-name">${product.name}</p>
+                        <p class="product-original-price">${product.price.toLocaleString()}원</p>
+                        <div class="product-price">
+                            <p class="product-discount-rate">${product.discount_rate}%</p>
+                            <p class="product-final-price">${product.total_price.toLocaleString()}원</p>
+                        </div>
+                    </div>
+                </li>
+            `;
+            productList.insertAdjacentHTML('beforeend', productHTML);
+        });
+    } catch (error) {
+        console.error('상품 데이터 로드 실패:', error);
+    }
+}
 
 document.addEventListener('DOMContentLoaded', function() {
+
+    // 커즈미슈즈에 등록된 상품 데이터 가져오기
+    loadProducts();
+
+    const productList = document.querySelector('.product-list');
+    productList.addEventListener('click', function(e) {
+        let target = e.target;
+        // li.product-item이 아닐 경우 부모로 타고 올라감
+        while (target && !target.classList.contains('product-item')) {
+            target = target.parentElement;
+        }
+        if (target && target.classList.contains('product-item')) {
+            const productId = target.getAttribute('data-id');
+            alert('상품 id: ' + productId);
+        }
+    });
+
     // Intersection Observer 옵션 설정
     const observerOptions = {
         threshold: 0.1, // 요소가 10% 보일 때 트리거
