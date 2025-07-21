@@ -1,5 +1,11 @@
 // DOM이 완전히 로드된 후 실행
 const imageSliderIndex = 0;
+
+
+fetch('https://api.cusme-shoe.net/products/search/?search=&ordering=&page_size=10&page_number=1') 
+    .then(response => response.json())
+    .then(data => console.log(data));
+
 document.addEventListener('DOMContentLoaded', function() {
     // Intersection Observer 옵션 설정
     const observerOptions = {
@@ -29,6 +35,49 @@ document.addEventListener('DOMContentLoaded', function() {
         // observer 적용
         observer.observe(element);
     });
+
+    // 카운트다운 기능 추가
+    function startCountdown() {
+        // 목표 날짜 설정 (예: 3일 후)
+        const targetDate = new Date();
+        targetDate.setDate(targetDate.getDate() + 3);
+        targetDate.setHours(21, 40, 55, 0); // 21시 40분 55초로 설정
+
+        function updateCountdown() {
+            const now = new Date();
+            const timeDifference = targetDate - now;
+
+            if (timeDifference <= 0) {
+                // 카운트다운 종료
+                document.querySelector('.count-down-time-date').textContent = '00';
+                document.querySelector('.count-down-time-hour').textContent = '00';
+                document.querySelector('.count-down-time-minute').textContent = '00';
+                document.querySelector('.count-down-time-second').textContent = '00';
+                return;
+            }
+
+            // 남은 시간 계산
+            const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+            // 화면에 업데이트 (두 자리 숫자로 표시)
+            document.querySelector('.count-down-time-date').textContent = days.toString().padStart(2, '0');
+            document.querySelector('.count-down-time-hour').textContent = hours.toString().padStart(2, '0');
+            document.querySelector('.count-down-time-minute').textContent = minutes.toString().padStart(2, '0');
+            document.querySelector('.count-down-time-second').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        // 초기 실행
+        updateCountdown();
+        
+        // 1초마다 업데이트
+        setInterval(updateCountdown, 1000);
+    }
+
+    // 카운트다운 시작
+    startCountdown();
 
     // transform: translate(-100vw)
 
