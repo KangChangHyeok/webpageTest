@@ -52,13 +52,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (target && target.classList.contains('product-item')) {
             const productId = target.getAttribute('data-id');
             // iOS 웹뷰로 메시지 전송 (WKWebView)
-            if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.iosListener) {
-                window.webkit.messageHandlers.iosListener.postMessage({
-                    productId: productId,
-                    productName: target.querySelector('.product-name').textContent,
-                    brandName: target.querySelector('.brand-name').textContent
-                });
-            }
+            window.webkit.messageHandlers.iosListener.postMessage({
+                productId: productId,
+                productName: target.querySelector('.product-name').textContent,
+                brandName: target.querySelector('.brand-name').textContent
+            });
         }
     });
 
