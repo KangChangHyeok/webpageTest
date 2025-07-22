@@ -51,7 +51,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (target && target.classList.contains('product-item')) {
             const productId = target.getAttribute('data-id');
-            alert('상품 id: ' + productId);
+            // iOS 웹뷰로 메시지 전송 (WKWebView)
+            if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.productSelected) {
+                window.webkit.messageHandlers.productSelected.postMessage({
+                    productId: productId,
+                    productName: target.querySelector('.product-name').textContent,
+                    brandName: target.querySelector('.brand-name').textContent
+                });
+            }
         }
     });
 
