@@ -62,27 +62,27 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // Intersection Observer 생성
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // 요소가 화면에 나타나면 'visible' 클래스 추가
-                entry.target.classList.add('visible');
+    // const observer = new IntersectionObserver((entries) => {
+    //     entries.forEach(entry => {
+    //         if (entry.isIntersecting) {
+    //             // 요소가 화면에 나타나면 'visible' 클래스 추가
+    //             entry.target.classList.add('visible');
             
-            }
-        });
-    }, observerOptions);
+    //         }
+    //     });
+    // }, observerOptions);
 
     // 애니메이션을 적용할 모든 요소 선택 (이미지, 텍스트, 제목 등)
-    const animatedElements = document.querySelectorAll('img, h1, h2, h3, p, strong, div, section, header');
+    // const animatedElements = document.querySelectorAll('img, h1, h2, h3, p, strong, div, section, header');
     
-    // 각 요소에 애니메이션 클래스 추가 및 observer 적용
-    animatedElements.forEach((element, index) => {
-        // 애니메이션 클래스 추가
-        element.classList.add('scroll-fade-in');
+    // // 각 요소에 애니메이션 클래스 추가 및 observer 적용
+    // animatedElements.forEach((element, index) => {
+    //     // 애니메이션 클래스 추가
+    //     element.classList.add('scroll-fade-in');
         
-        // observer 적용
-        observer.observe(element);
-    });
+    //     // observer 적용
+    //     observer.observe(element);
+    // });
 
     // 카운트다운 기능 추가
     function startCountdown() {
