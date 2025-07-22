@@ -3,7 +3,7 @@ const imageSliderIndex = 0;
 
 async function loadProducts() {
     try {
-        const response = await fetch('https://api.cusme-shoe.net/products/search/?search=&ordering=&page_size=10&page_number=1');
+        const response = await fetch('https://dev.cusme-shoe.net/products/search/?search=&ordering=&page_size=10&page_number=1');
         const data = await response.json();
         const products = data.results;
 
